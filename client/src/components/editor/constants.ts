@@ -1,0 +1,3 @@
+export const MAX_PREVIEW_BYTES = 16 * 1024;
+export const COLLECTION_PREVIEW_LIMIT = 200;
+

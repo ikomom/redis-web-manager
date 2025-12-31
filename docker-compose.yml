@@ -1,0 +1,36 @@
+name: redis-web-manager
+
+services:
+  redis-db:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  backend:
+    build: ./server
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - CORS_ORIGIN=http://localhost:8080
+      - CONNECTIONS_FILE=/app/data/connections.json
+    volumes:
+      - connections_data:/app/data
+    depends_on:
+      - redis-db
+    restart: always
+
+  frontend:
+    build: ./client
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  redis_data:
+  connections_data:

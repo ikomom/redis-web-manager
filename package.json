@@ -1,0 +1,32 @@
+{
+  "name": "redis-web-manager",
+  "private": true,
+  "packageManager": "pnpm@10.24.0",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:client": "pnpm --filter client dev",
+    "dev:server": "pnpm --filter server dev",
+    "build": "pnpm -r build",
+    "build:client": "pnpm --filter client build",
+    "build:server": "pnpm --filter server build",
+    "lint": "pnpm --filter client lint",
+    "prepare": "husky",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

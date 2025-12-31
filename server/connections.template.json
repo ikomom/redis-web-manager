@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Docker Redis",
+    "host": "redis-db",
+    "port": 6379,
+    "password": "",
+    "db": 0,
+    "id": "docker-redis",
+    "createdAt": 0
+  }
+]
