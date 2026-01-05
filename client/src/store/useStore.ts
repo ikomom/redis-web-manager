@@ -1,9 +1,13 @@
 import { create } from "zustand";
 import type { RedisConfig } from "../lib/types";
 
+type ConnectionsLoadStatus = "idle" | "loading" | "loaded";
+
 interface AppState {
   connections: RedisConfig[];
   activeConnectionId: string | null;
+  connectionsLoadStatus: ConnectionsLoadStatus;
+  setConnectionsLoadStatus: (status: ConnectionsLoadStatus) => void;
   setConnections: (connections: RedisConfig[]) => void;
   updateConnection: (config: RedisConfig) => void;
   setActiveConnection: (id: string | null) => void;
@@ -13,7 +17,10 @@ interface AppState {
 export const useStore = create<AppState>((set, get) => ({
   connections: [],
   activeConnectionId: null,
-  setConnections: (connections) => set({ connections }),
+  connectionsLoadStatus: "idle",
+  setConnectionsLoadStatus: (status) => set({ connectionsLoadStatus: status }),
+  setConnections: (connections) =>
+    set({ connections, connectionsLoadStatus: "loaded" }),
   updateConnection: (config) =>
     set((state) => ({
       connections: state.connections.map((c) =>

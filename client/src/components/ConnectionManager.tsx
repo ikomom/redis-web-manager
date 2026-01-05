@@ -23,6 +23,8 @@ export const ConnectionManager: React.FC = () => {
   const {
     connections,
     setConnections,
+    connectionsLoadStatus,
+    setConnectionsLoadStatus,
     setActiveConnection,
     activeConnectionId,
   } = useStore();
@@ -55,15 +57,18 @@ export const ConnectionManager: React.FC = () => {
       setConnections(data);
     } catch (error) {
       console.error(error);
+      setConnectionsLoadStatus("idle");
       toast.error(t("common.error"));
     } finally {
       setIsLoading(false);
     }
-  }, [setConnections, t]);
+  }, [setConnections, setConnectionsLoadStatus, t]);
 
   useEffect(() => {
+    if (connectionsLoadStatus !== "idle") return;
+    setConnectionsLoadStatus("loading");
     loadConnections();
-  }, [loadConnections]);
+  }, [connectionsLoadStatus, loadConnections, setConnectionsLoadStatus]);
 
   const openCreateDialog = () => {
     setMode("create");
@@ -112,6 +117,7 @@ export const ConnectionManager: React.FC = () => {
           : payloadBase;
 
       const newConnection = await api.saveConnection(payload);
+      setConnectionsLoadStatus("loading");
       await loadConnections();
       setIsOpen(false);
       setActiveConnection(newConnection.id);
@@ -125,6 +131,7 @@ export const ConnectionManager: React.FC = () => {
   const handleRemove = async (id: string) => {
     try {
       await api.deleteConnection(id);
+      setConnectionsLoadStatus("loading");
       await loadConnections();
       if (activeConnectionId === id) {
         setActiveConnection(null);

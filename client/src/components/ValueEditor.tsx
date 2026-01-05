@@ -947,7 +947,7 @@ export const ValueEditor: React.FC<ValueEditorProps> = ({
               onChange={(e) => setNewKeyName(e.target.value)}
               disabled={isLoading}
               className="font-mono"
-              placeholder="Key name"
+              placeholder={t("editor.keyName")}
             />
           </div>
           <div className="space-y-2">
